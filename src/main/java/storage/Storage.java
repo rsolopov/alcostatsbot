@@ -6,5 +6,5 @@ public interface Storage {
 
     HashSet<Long> getChatIds();
     void saveId(Long chatId);
-
+    void savePollMessage(Long chatId, Integer messageId);
 }

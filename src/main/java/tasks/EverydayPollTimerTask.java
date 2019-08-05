@@ -2,6 +2,7 @@ package tasks;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -40,7 +41,8 @@ public class EverydayPollTimerTask extends TimerTask {
             message.setReplyMarkup(markupInline);
 
             try {
-                bot.execute(message);
+                Message sentPollMessage = bot.execute(message);
+                storage.savePollMessage(chatId, sentPollMessage.getMessageId());
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

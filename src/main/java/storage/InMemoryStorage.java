@@ -20,4 +20,9 @@ public class InMemoryStorage implements Storage {
     public void saveId(Long chatId) {
         chatIds.add(chatId);
     }
+
+    @Override
+    public void savePollMessage(Long chatId, Integer messageId) {
+
+    }
 }
