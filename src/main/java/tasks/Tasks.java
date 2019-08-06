@@ -3,8 +3,9 @@ package tasks;
 import java.time.LocalDateTime;
 
 public class Tasks {
-    public static Long getDelay() {
 
+
+    public static Long getDelayFor(int hour) {
         LocalDateTime ldt = LocalDateTime.now();
         var currentHours = ldt.getHour();
         var currentMinutes = ldt.getMinute();
@@ -12,12 +13,12 @@ public class Tasks {
 
         var totalDaySeconds = 24 * 60 * 60;
         var secondsToMidnight = totalDaySeconds -  ((currentHours * 60 * 60) + (currentMinutes * 60) + (60 - currentSeconds));
-        var secondsFromMidnightToNineAm = 9 * 60 * 60;
+        var secondsFromMidnightToNineAm = hour * 60 * 60;
         var millisecondsToDelay = (secondsToMidnight + secondsFromMidnightToNineAm) * 1000;
 
         return (long) millisecondsToDelay;
-
     }
+
 
     public static Long getPeriod() {
 

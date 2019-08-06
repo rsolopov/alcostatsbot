@@ -1,14 +1,19 @@
 package storage;
 
+import org.telegram.telegrambots.meta.api.objects.Message;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class InMemoryStorage implements Storage {
 
     private HashSet<Long> chatIds;
+    private ArrayList<Message> messages;
 
     public InMemoryStorage() {
 
         chatIds = new HashSet<>();
+        messages = new ArrayList<>();
     }
 
     @Override
@@ -22,7 +27,12 @@ public class InMemoryStorage implements Storage {
     }
 
     @Override
-    public void savePollMessage(Long chatId, Integer messageId) {
+    public void saveMessage(Message message) {
+        messages.add(message);
+    }
 
+    @Override
+    public ArrayList<Message> getMessages() {
+        return messages;
     }
 }

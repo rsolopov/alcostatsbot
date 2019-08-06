@@ -42,7 +42,7 @@ public class EverydayPollTimerTask extends TimerTask {
 
             try {
                 Message sentPollMessage = bot.execute(message);
-                storage.savePollMessage(chatId, sentPollMessage.getMessageId());
+                storage.saveMessage(sentPollMessage);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

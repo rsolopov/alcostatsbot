@@ -1,10 +1,16 @@
 package storage;
 
+import org.telegram.telegrambots.meta.api.objects.Message;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public interface Storage {
 
-    HashSet<Long> getChatIds();
     void saveId(Long chatId);
-    void savePollMessage(Long chatId, Integer messageId);
+    HashSet<Long> getChatIds();
+
+    void saveMessage(Message message);
+    ArrayList<Message> getMessages();
+
 }
