@@ -8,9 +8,13 @@ import java.util.HashSet;
 public interface Storage {
 
     void saveId(Long chatId);
+
     HashSet<Long> getChatIds();
 
     void saveMessage(Message message);
+
     ArrayList<Message> getMessages();
+
+    void cleanMessages();
 
 }

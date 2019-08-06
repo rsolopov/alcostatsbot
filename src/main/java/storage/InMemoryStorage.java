@@ -35,4 +35,9 @@ public class InMemoryStorage implements Storage {
     public ArrayList<Message> getMessages() {
         return messages;
     }
+
+    @Override
+    public void cleanMessages() {
+        messages.clear();
+    }
 }

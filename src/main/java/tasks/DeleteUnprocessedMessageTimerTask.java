@@ -21,7 +21,7 @@ public class DeleteUnprocessedMessageTimerTask extends TimerTask {
     @Override
     public void run() {
 
-        for (Message m: storage.getMessages()) {
+        for (Message m : storage.getMessages()) {
             DeleteMessage deleteMessage = new DeleteMessage(m.getChatId(), m.getMessageId());
             try {
                 bot.execute(deleteMessage);
@@ -29,6 +29,6 @@ public class DeleteUnprocessedMessageTimerTask extends TimerTask {
                 e.printStackTrace();
             }
         }
-
+        storage.cleanMessages();
     }
 }

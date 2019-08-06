@@ -29,7 +29,7 @@ public class Main {
         }
 
         TimerTask everydayPollTask = new EverydayPollTimerTask(alcobot, storage);
-        TimerTask deleteMessageTask = new DeleteUnprocessedMessageTimerTask(alcobot,storage);
+        TimerTask deleteMessageTask = new DeleteUnprocessedMessageTimerTask(alcobot, storage);
         Timer timer = new Timer();
 
         timer.scheduleAtFixedRate(everydayPollTask, Tasks.getDelayFor(9), Tasks.getPeriod());
