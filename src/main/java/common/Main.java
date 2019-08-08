@@ -38,10 +38,9 @@ public class Main {
         TimerTask exportTask = new ExportTimerTask(export);
         Timer timer = new Timer();
 
-        timer.scheduleAtFixedRate(everydayPollTask, Tasks.getDelayFor(9), Tasks.getPeriod());
-        timer.scheduleAtFixedRate(deleteMessageTask, Tasks.getDelayFor(19), Tasks.getPeriod());
-        timer.scheduleAtFixedRate(exportTask, Tasks.getDelayFor(20), Tasks.getPeriod());
+        timer.scheduleAtFixedRate(everydayPollTask, Tasks.getStartDateFor(Config.POLL_HOUR, Config.POLL_MINUTE), Tasks.getPeriod());
+        timer.scheduleAtFixedRate(deleteMessageTask, Tasks.getStartDateFor(Config.DELETE_HOUR, Config.DELETE_MINUTE), Tasks.getPeriod());
+        timer.scheduleAtFixedRate(exportTask, Tasks.getStartDateFor(Config.EXPORT_HOUR, Config.EXPORT_MINUTE), Tasks.getPeriod());
 
     }
-
 }

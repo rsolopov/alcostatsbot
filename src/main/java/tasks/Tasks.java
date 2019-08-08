@@ -1,28 +1,20 @@
 package tasks;
 
-import java.time.LocalDateTime;
+import java.time.*;
+import java.util.Date;
 
 public class Tasks {
-
-
-    public static Long getDelayFor(int hour) {
-        LocalDateTime ldt = LocalDateTime.now();
-        var currentHours = ldt.getHour();
-        var currentMinutes = ldt.getMinute();
-        var currentSeconds = ldt.getSecond();
-
-        var totalDaySeconds = 24 * 60 * 60;
-        var secondsToMidnight = totalDaySeconds - ((currentHours * 60 * 60) + (currentMinutes * 60) + (60 - currentSeconds));
-        var secondsFromMidnightToNineAm = hour * 60 * 60;
-        var millisecondsToDelay = (secondsToMidnight + secondsFromMidnightToNineAm) * 1000;
-
-        return (long) millisecondsToDelay;
-    }
-
 
     public static Long getPeriod() {
 
         return 1000L * 60L * 60L * 24L;
+    }
+
+    public static Date getStartDateFor(int hour, int minute) {
+        LocalDate tmrw = LocalDate.now().plusDays(1);
+        LocalTime time = LocalTime.of(hour, minute);
+        LocalDateTime startTime = LocalDateTime.of(tmrw, time);
+        return Date.from(startTime.toInstant(ZoneOffset.UTC));
     }
 
 }
