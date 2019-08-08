@@ -1,5 +1,6 @@
 package storage;
 
+import common.Alcoholic;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
@@ -9,11 +10,13 @@ public class InMemoryStorage implements Storage {
 
     private HashSet<Long> chatIds;
     private ArrayList<Message> messages;
+    private ArrayList<Alcoholic> alcoholics;
 
     public InMemoryStorage() {
 
         chatIds = new HashSet<>();
         messages = new ArrayList<>();
+        alcoholics = new ArrayList<>();
     }
 
     @Override
@@ -39,5 +42,15 @@ public class InMemoryStorage implements Storage {
     @Override
     public void cleanMessages() {
         messages.clear();
+    }
+
+    @Override
+    public void addAlcoholic(Alcoholic alcoholic) {
+        alcoholics.add(alcoholic);
+    }
+
+    @Override
+    public ArrayList<Alcoholic> getAlcoholics() {
+        return alcoholics;
     }
 }

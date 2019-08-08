@@ -1,5 +1,6 @@
 package storage;
 
+import common.Alcoholic;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
@@ -16,5 +17,9 @@ public interface Storage {
     ArrayList<Message> getMessages();
 
     void cleanMessages();
+
+    void addAlcoholic(Alcoholic alcoholic);
+
+    ArrayList<Alcoholic> getAlcoholics();
 
 }
