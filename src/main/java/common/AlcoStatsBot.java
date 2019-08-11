@@ -22,7 +22,7 @@ public class AlcoStatsBot extends TelegramLongPollingBot {
 
             Long chatId = update.getMessage().getChatId();
             storage.saveId(chatId);
-            Alcoholic alcoholic = (Alcoholic) update.getMessage().getFrom();
+            Alcoholic alcoholic = new Alcoholic(update.getMessage().getFrom());
             alcoholic.setDrunkToday(false);
             storage.addAlcoholic(alcoholic);
 
