@@ -30,9 +30,7 @@ public class AlcoStatsBot extends TelegramLongPollingBot {
 
             String callData = update.getCallbackQuery().getData();
             Integer messageId = update.getCallbackQuery().getMessage().getMessageId();
-            Long chatId = update.getCallbackQuery().getMessage().getChatId();
-
-            int alcoholicId = update.getMessage().getFrom().getId();
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
 
             SendMessage message = new SendMessage().setChatId(chatId);
 
@@ -40,7 +38,7 @@ public class AlcoStatsBot extends TelegramLongPollingBot {
                 message.setText("Oh, you actually have. See you next time.");
 
                 storage.getAlcoholics().forEach(alcoholic -> {
-                    if(alcoholic.getId() == alcoholicId)
+                    if(alcoholic.getId() == chatId)
                         alcoholic.setDrunkToday(true);
                 });
 
