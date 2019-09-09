@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.logging.BotLogger;
 import storage.Storage;
 
 public class AlcoStatsBot extends TelegramLongPollingBot {
@@ -20,11 +21,23 @@ public class AlcoStatsBot extends TelegramLongPollingBot {
 
         if (update.hasMessage()) {
 
+            String messageText = update.getMessage().getText();
             Long chatId = update.getMessage().getChatId();
-            storage.saveId(chatId);
-            Alcoholic alcoholic = new Alcoholic(update.getMessage().getFrom());
-            alcoholic.setDrunkToday(false);
-            storage.addAlcoholic(alcoholic);
+
+            if (messageText.equals("/stop")) {
+                storage.removeId(chatId);
+                BotLogger.info("AlcoStatsBot", "Stop command came through");
+
+            } else if (messageText.equals("/start")) {
+                storage.saveId(chatId);
+                Alcoholic alcoholic = new Alcoholic(update.getMessage().getFrom());
+                alcoholic.setDrunkToday(false);
+                storage.addAlcoholic(alcoholic);
+                BotLogger.info("AlcoStatsBot", "Subscribing a new user");
+
+            } else {
+                BotLogger.info("AlcoStatsBot", "Ignoring user input");
+            }
 
         } else if (update.hasCallbackQuery()) {
 
@@ -38,7 +51,7 @@ public class AlcoStatsBot extends TelegramLongPollingBot {
                 message.setText("Oh, you actually have. See you next time.");
 
                 storage.getAlcoholics().forEach(alcoholic -> {
-                    if(alcoholic.getId() == chatId)
+                    if (alcoholic.getId() == chatId)
                         alcoholic.setDrunkToday(true);
                 });
 

@@ -12,6 +12,8 @@ public interface Storage {
 
     HashSet<Long> getChatIds();
 
+    void removeId(Long chatId);
+
     void saveMessage(Message message);
 
     ArrayList<Message> getMessages();

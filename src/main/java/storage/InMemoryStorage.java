@@ -25,6 +25,11 @@ public class InMemoryStorage implements Storage {
     }
 
     @Override
+    public void removeId(Long chatId) {
+        chatIds.remove(chatId);
+    }
+
+    @Override
     public void saveId(Long chatId) {
         chatIds.add(chatId);
     }
