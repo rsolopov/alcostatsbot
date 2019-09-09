@@ -13,7 +13,6 @@ import storage.Storage;
 import tasks.DeleteUnprocessedMessageTimerTask;
 import tasks.EverydayPollTimerTask;
 import tasks.ExportTimerTask;
-import tasks.Tasks;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -51,9 +50,9 @@ public class Main {
         TimerTask exportTask = new ExportTimerTask(export);
         Timer timer = new Timer();
 
-        timer.scheduleAtFixedRate(everydayPollTask, Tasks.getStartDateFor(Config.POLL_HOUR, Config.POLL_MINUTE), Tasks.getPeriod());
-        timer.scheduleAtFixedRate(deleteMessageTask, Tasks.getStartDateFor(Config.DELETE_HOUR, Config.DELETE_MINUTE), Tasks.getPeriod());
-        timer.scheduleAtFixedRate(exportTask, Tasks.getStartDateFor(Config.EXPORT_HOUR, Config.EXPORT_MINUTE), Tasks.getPeriod());
+        timer.scheduleAtFixedRate(everydayPollTask, Config.getStartDateFor(Config.POLL_HOUR, Config.POLL_MINUTE), Config.getPeriod());
+        timer.scheduleAtFixedRate(deleteMessageTask, Config.getStartDateFor(Config.DELETE_HOUR, Config.DELETE_MINUTE), Config.getPeriod());
+        timer.scheduleAtFixedRate(exportTask, Config.getStartDateFor(Config.EXPORT_HOUR, Config.EXPORT_MINUTE), Config.getPeriod());
 
     }
 }
