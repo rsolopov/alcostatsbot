@@ -1,5 +1,5 @@
-package common;
-
+import common.AlcoStatsBot;
+import common.Config;
 import export.ConsoleExport;
 import export.Export;
 import org.telegram.telegrambots.ApiContextInitializer;
