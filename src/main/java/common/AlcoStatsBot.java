@@ -20,55 +20,67 @@ public class AlcoStatsBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage()) {
-
-            String messageText = update.getMessage().getText();
-            Long chatId = update.getMessage().getChatId();
-
-            if (messageText.equals("/stop")) {
-                storage.removeId(chatId);
-                BotLogger.info("AlcoStatsBot", "Stop command came through");
-
-            } else if (messageText.equals("/start")) {
-                storage.saveId(chatId);
-                Alcoholic alcoholic = new Alcoholic(update.getMessage().getFrom());
-                alcoholic.setDrunkToday(false);
-                storage.addAlcoholic(alcoholic);
-                BotLogger.info("AlcoStatsBot", "Subscribing a new user");
-
-            } else {
-                BotLogger.info("AlcoStatsBot", "Ignoring user input");
-            }
-
+            processSimpleMessage(update);
         } else if (update.hasCallbackQuery()) {
+            processCallbackQuery(update);
+        }
+    }
 
-            String callData = update.getCallbackQuery().getData();
-            Integer messageId = update.getCallbackQuery().getMessage().getMessageId();
-            long chatId = update.getCallbackQuery().getMessage().getChatId();
+    private void processSimpleMessage(Update update) {
+        String messageText = update.getMessage().getText();
+        Long chatId = update.getMessage().getChatId();
 
-            SendMessage message = new SendMessage().setChatId(chatId);
+        if (messageText.equals("/stop")) {
+            processStopCommand(chatId);
 
-            if (callData.equals("yep")) {
-                message.setText("Oh, you actually have. See you next time.");
+        } else if (messageText.equals("/start")) {
+            processStartCommand(update, chatId);
 
-                storage.getAlcoholics().forEach(alcoholic -> {
-                    if (alcoholic.getId() == chatId)
-                        alcoholic.setDrunkToday(true);
-                });
+        } else {
+            BotLogger.info("AlcoStatsBot", "Ignoring user input");
+        }
+    }
 
-            } else if (callData.equals("nah")) {
-                message.setText("No? Ok. See you next time.");
-            }
+    private void processStopCommand(Long chatId) {
+        storage.removeId(chatId);
+        BotLogger.info("AlcoStatsBot", "Stop command came through");
+    }
 
-            var deleteMessage = new DeleteMessage().setChatId(chatId).setMessageId(messageId);
+    private void processStartCommand(Update update, Long chatId) {
+        storage.saveId(chatId);
+        Alcoholic alcoholic = new Alcoholic(update.getMessage().getFrom());
+        alcoholic.setDrunkToday(false);
+        storage.addAlcoholic(alcoholic);
+        BotLogger.info("AlcoStatsBot", "Subscribing a new user");
+    }
 
-            try {
-                execute(message);
-                execute(deleteMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+    private void processCallbackQuery(Update update) {
+        String callData = update.getCallbackQuery().getData();
+        Integer messageId = update.getCallbackQuery().getMessage().getMessageId();
+        long chatId = update.getCallbackQuery().getMessage().getChatId();
+
+        SendMessage message = new SendMessage().setChatId(chatId);
+
+        if (callData.equals("yep")) {
+            message.setText("Oh, you actually have. See you next time.");
+
+            storage.getAlcoholics().forEach(alcoholic -> {
+                if (alcoholic.getId() == chatId)
+                    alcoholic.setDrunkToday(true);
+            });
+
+        } else if (callData.equals("nah")) {
+            message.setText("No? Ok. See you next time.");
         }
 
+        var deleteMessage = new DeleteMessage().setChatId(chatId).setMessageId(messageId);
+
+        try {
+            execute(message);
+            execute(deleteMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
